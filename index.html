@@ -160,7 +160,9 @@ body.revealed .scroll-cue{opacity:.85}
 
 .bismillah{display:block;width:min(64vw,430px);height:auto;margin:0 auto;color:#a07b3b}
 .blessing{font-style:italic;font-size:1.22rem;line-height:1.55;max-width:31ch;margin:0 auto;color:var(--ink-soft)}
-.memory{font-weight:600;font-size:1.32rem;line-height:1.4;max-width:24ch;margin:10px auto 12px}
+.memory{font-weight:600;font-size:clamp(1.15rem,5.4vw,1.32rem);line-height:1.35;margin:12px auto 14px}
+.memory .mem-name{display:block;white-space:nowrap}
+.memory .mem-amp{display:block;font-family:var(--script);font-weight:400;font-size:1.7rem;line-height:1.1;color:var(--gold)}
 .couples{margin-top:44px}
 .couple{display:grid;gap:4px;justify-items:center}
 .couple + .divider{margin:34px auto}
@@ -464,7 +466,7 @@ const INVITE = {
 
   invocation: "بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ",
   blessing: "With the blessings of Almighty Allah and in loving memory of",
-  inMemoryOf: "Late Haji Amir Khan & Late Hajjan Khatun Be",
+  inMemoryOf: ["Late Haji Amir Khan", "Late Hajjan Khatun Bee"],   // one name per line
   inviteLine: "We joyfully invite you to celebrate the wedding ceremonies of their beloved grandson and granddaughter.",
 
   mainDate: "2026-12-21",                   // date shown on the cover
@@ -535,7 +537,9 @@ const INVITE = {
   fill("[data-main-date]", longDate(main)); fill("[data-short-date]", shortDate);
   fill("[data-city]", C.city); fill("[data-date-range]", C.dateRange);
   $(".bismillah").setAttribute("aria-label", C.invocation); fill("[data-blessing]", C.blessing);
-  fill("[data-memory]", C.inMemoryOf); fill("[data-invite-line]", C.inviteLine);
+  const mem = $("[data-memory]");
+  [].concat(C.inMemoryOf).forEach((n, i) => { if (i) mem.appendChild(make("span", "mem-amp", "&")); mem.appendChild(make("span", "mem-name", n)); });
+  fill("[data-invite-line]", C.inviteLine);
   fill("[data-venue-name]", C.venue.name); fill("[data-venue-address]", C.venue.address);
   fill("[data-rsvp-address]", C.rsvp.address); fill("[data-invited-by]", C.invitedBy);
 
